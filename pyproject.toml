@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "fastapi-learn"
+version = "0.1.0"
+description = ""
+authors = ["denis-kosobanov <Kosobanovden@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.103.2"
+uvicorn = "^0.23.2"
+pydantic-settings = "^2.0.3"
+asyncpg = "^0.28.0"
+alembic = "^1.12.0"
+sqlalchemy = "^2.0.22"
+
+
+[tool.poetry.group.dev.dependencies]
+icecream = "^2.1.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
