@@ -1,9 +1,6 @@
 from functools import lru_cache
-from typing import Any
 
 from dotenv import load_dotenv
-from pydantic import PostgresDsn, field_validator
-from pydantic_core.core_schema import FieldValidationInfo
 from pydantic_settings import BaseSettings
 
 load_dotenv()
@@ -17,19 +14,9 @@ class Settings(BaseSettings):
     postgres_name: str
     postgres_db: str
 
-    postgres_url: PostgresDsn | None = None
-
-    @field_validator('postgres_url')
-    @classmethod
-    def get_postgres_url(cls, v, info: FieldValidationInfo) -> Any:
-        return PostgresDsn.build(
-            scheme="postgresql+asyncpg",
-            username=info.data['postgres_user'],
-            password=info.data['postgres_password'],
-            host=info.data['postgres_host'],
-            port=info.data['postgres_port'],
-            path=f"/{info.data['postgres_db'] or ''}",
-        )
+    @property
+    def postgres_url(self):
+        return f"postgresql+asyncpg://{self.postgres_user}:{self.postgres_password}@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
 
 
 @lru_cache()

@@ -12,13 +12,13 @@ if TYPE_CHECKING:
 class User(BaseUUIDModel):
     __tablename__ = "user"
 
-    username: Mapped[str] = mapped_column(nullable=False, unique=True)
+    username: Mapped[str] = mapped_column(nullable=True, unique=True)
     email: Mapped[str] = mapped_column(nullable=False, unique=True)
     password_hash: Mapped[str] = mapped_column(nullable=False)
-    first_name: Mapped[str] = mapped_column(nullable=False)
-    last_name: Mapped[str] = mapped_column(nullable=False)
-    gender: Mapped[IGenderEnum] = mapped_column(default=IGenderEnum.other)
-    address: Mapped[str] = mapped_column(nullable=False)
-    phone_number: Mapped[str] = mapped_column()
+    first_name: Mapped[str] = mapped_column(nullable=True)
+    last_name: Mapped[str] = mapped_column(nullable=True)
+    gender: Mapped[IGenderEnum] = mapped_column(default=IGenderEnum.other, nullable=True)
+    address: Mapped[str] = mapped_column(nullable=True)
+    phone_number: Mapped[str] = mapped_column(nullable=True)
 
     orders: Mapped[list['Order']] = relationship(back_populates='users')
