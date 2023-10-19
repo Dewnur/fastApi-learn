@@ -7,6 +7,7 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from app.core.config import get_settings
+from app.models import Base
 
 sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
 
@@ -18,13 +19,13 @@ section = config.config_ini_section
 config.set_section_option(section, 'DB_HOST', settings.postgres_host)
 config.set_section_option(section, 'DB_PORT', str(settings.postgres_port))
 config.set_section_option(section, 'DB_USER', settings.postgres_user)
-config.set_section_option(section, 'DB_NAME', settings.postgres_name)
+config.set_section_option(section, 'DB_NAME', settings.postgres_db)
 config.set_section_option(section, 'DB_PASS', settings.postgres_password)
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-target_metadata = None
+target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
