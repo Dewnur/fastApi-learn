@@ -18,6 +18,10 @@ class Settings(BaseSettings):
     def postgres_url(self):
         return f"postgresql+asyncpg://{self.postgres_user}:{self.postgres_password}@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
 
+    encrypt_key: str
+    access_token_expire_minutes: int
+    name_access_token: str = 'market_access_token'
+
 
 @lru_cache()
 def get_settings():

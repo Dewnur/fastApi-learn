@@ -16,6 +16,7 @@ class CRUDBase(Generic[ModelType]):
 
     async def fetch_one(
             self,
+            *,
             db_session: async_sessionmaker[AsyncSession] | None = None,
             **filter,
     ) -> ModelType | None:
@@ -27,6 +28,7 @@ class CRUDBase(Generic[ModelType]):
 
     async def fetch_all(
             self,
+            *,
             db_session: async_sessionmaker[AsyncSession] | None = None,
             **filter,
     ) -> Sequence[Row | RowMapping | Any]:
@@ -38,6 +40,7 @@ class CRUDBase(Generic[ModelType]):
 
     async def create(
             self,
+            *,
             obj: BaseModel,
             db_session: async_sessionmaker[AsyncSession] | None = None,
     ) -> ModelType:
@@ -50,6 +53,7 @@ class CRUDBase(Generic[ModelType]):
 
     async def update(
             self,
+            *,
             obj_current: ModelType,
             obj_new: BaseModel,
             db_session: async_sessionmaker[AsyncSession] | None = None,
@@ -68,6 +72,7 @@ class CRUDBase(Generic[ModelType]):
 
     async def delete(
             self,
+            *,
             id: UUID,
             db_session: async_sessionmaker[AsyncSession] | None = None,
     ) -> None:

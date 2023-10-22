@@ -7,3 +7,7 @@ class IUserCreate(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class IUserRead(IUserCreate):
+    pass
