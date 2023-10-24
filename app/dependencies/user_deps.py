@@ -1,19 +1,18 @@
-from fastapi import HTTPException
-from starlette import status
-
 from app import crud
 from app.db.session import async_session
+from app.models import User, Role
 from app.schemas.user_schema import IUserCreate
+from app.utils.exceptions.common_exception import NameExistException, IdNotFoundException
 
 
 async def user_existing(user: IUserCreate) -> IUserCreate:
     existing_email = await crud.user.fetch_one(db_session=async_session, email=user.email)
     if existing_email:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+        raise NameExistException(model=User, name=user.email)
     existing_username = await crud.user.fetch_one(db_session=async_session, username=user.username)
     if existing_username:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+        raise NameExistException(model=User, name=user.username)
     existing_role = await crud.role.fetch_one(db_session=async_session, id=user.role_id)
     if not existing_role:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+        raise IdNotFoundException(model=Role, id=user.role_id)
     return user

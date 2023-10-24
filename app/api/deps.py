@@ -28,15 +28,15 @@ def get_current_user(required_roles: list[str] = None):
                 algorithms=JWT_ALGORITHM,
             )
         except ExpiredSignatureError:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Token expired")
         except JWTError:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid token")
         user_id: str = payload.get('sub')
         if not user_id:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User ID not found in token")
         user = await crud.user.fetch_one(db_session=async_session, id=UUID(user_id))
         if not user:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
 
         if required_roles:
             is_valid_role = False
