@@ -6,7 +6,6 @@ from jose import jwt, JWTError, ExpiredSignatureError
 from app import crud
 from app.core.config import get_settings
 from app.core.security import JWT_ALGORITHM
-from app.db.session import async_session
 from app.models import User
 
 
@@ -34,7 +33,7 @@ def get_current_user(required_roles: list[str] = None):
         user_id: str = payload.get('sub')
         if not user_id:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User ID not found in token")
-        user = await crud.user.fetch_one(db_session=async_session, id=UUID(user_id))
+        user = await crud.user.fetch_one(id=UUID(user_id))
         if not user:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
 

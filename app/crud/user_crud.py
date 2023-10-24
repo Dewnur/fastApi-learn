@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from pydantic import BaseModel
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
+from sqlalchemy.ext.asyncio.session import AsyncSession
 from starlette import status
 
 from app.core.security import get_password_hash, verify_password
@@ -15,33 +15,33 @@ class CRUDUser(CRUDBase[User]):
             self,
             *,
             email: str,
-            db_session: async_sessionmaker[AsyncSession] | None = None,
+            db_session: AsyncSession | None = None,
     ) -> User:
-        async with db_session() as session:
-            users = await session.execute(select(User).where(User.email == email))
-            return users.scalar_one_or_none()
+        db_session = db_session or self.get_db().session
+        users = await db_session.execute(select(User).where(User.email == email))
+        return users.scalar_one_or_none()
 
     async def create(
             self,
             *,
             obj: BaseModel,
-            db_session: async_sessionmaker[AsyncSession] | None = None,
+            db_session: AsyncSession | None = None,
     ) -> User:
-        async with db_session() as session:
-            data = obj.model_dump()
-            password = data.pop('password')
-            db_obj = self.model(**data)
-            db_obj.password_hash = get_password_hash(password)
-            session.add(db_obj)
-            await session.commit()
-            await session.refresh(db_obj)
-            return db_obj
+        db_session = db_session or self.get_db().session
+        data = obj.model_dump()
+        password = data.pop('password')
+        db_obj = self.model(**data)
+        db_obj.password_hash = get_password_hash(password)
+        db_session.add(db_obj)
+        await db_session.commit()
+        await db_session.refresh(db_obj)
+        return db_obj
 
     async def authenticate(
             self,
             *,
             obj: BaseModel,
-            db_session: async_sessionmaker[AsyncSession] | None = None
+            db_session: AsyncSession | None = None
     ) -> User | None:
         auth_user = await self.get_by_email(db_session=db_session, email=obj.email)
         if not auth_user and not verify_password(obj.password, auth_user.password_hash):

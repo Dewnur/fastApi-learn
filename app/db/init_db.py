@@ -1,4 +1,4 @@
-from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession
+from sqlalchemy.ext.asyncio.session import AsyncSession
 
 from app import crud
 from app.schemas.role_schema import IRoleCreate
@@ -15,7 +15,7 @@ users: list[dict[str, str | IUserCreate]] = [
         "data": IUserCreate(
             first_name="Admin",
             last_name="FastAPI",
-            password_hash='root',
+            password='root',
             email="admin@example.com",
             is_superuser=True,
         ),
@@ -25,7 +25,7 @@ users: list[dict[str, str | IUserCreate]] = [
         "data": IUserCreate(
             first_name="Manager",
             last_name="FastAPI",
-            password_hash='root',
+            password='root',
             email="manager@example.com",
             is_superuser=False,
         ),
@@ -35,7 +35,7 @@ users: list[dict[str, str | IUserCreate]] = [
         "data": IUserCreate(
             first_name="User",
             last_name="FastAPI",
-            password_hash='root',
+            password='root',
             email="user@example.com",
             is_superuser=False,
         ),
@@ -44,7 +44,7 @@ users: list[dict[str, str | IUserCreate]] = [
 ]
 
 
-async def init_db(async_session: async_sessionmaker[AsyncSession]):
+async def init_db(async_session: AsyncSession):
     for role in roles:
         role_current = await crud.role.get_role_by_name(
             name=role.name, db_session=async_session

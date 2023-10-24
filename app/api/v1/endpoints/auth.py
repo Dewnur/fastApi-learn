@@ -16,10 +16,10 @@ router = APIRouter()
 async def register_user(
         user: IUserCreate = Depends(user_existing)
 ):
-    existing_role = await crud.role.fetch_one(db_session=async_session, id=user.role_id)
+    existing_role = await crud.role.fetch_one(id=user.role_id)
     if not existing_role.name == IRoleEnum.user:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
-    await crud.user.create(db_session=async_session, obj=user)
+    await crud.user.create(obj=user)
 
 
 @router.post('/login')

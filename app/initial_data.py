@@ -5,7 +5,8 @@ from app.db.session import async_session
 
 
 async def main() -> None:
-    await init_db(async_session)
+    async with async_session() as session:
+        await init_db(session)
 
 
 if __name__ == "__main__":

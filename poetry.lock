@@ -266,6 +266,53 @@ typing-extensions = ">=4.5.0"
 all = ["email-validator (>=2.0.0)", "httpx (>=0.23.0)", "itsdangerous (>=1.1.0)", "jinja2 (>=2.11.2)", "orjson (>=3.2.1)", "pydantic-extra-types (>=2.0.0)", "pydantic-settings (>=2.0.0)", "python-multipart (>=0.0.5)", "pyyaml (>=5.3.1)", "ujson (>=4.0.1,!=4.0.2,!=4.1.0,!=4.2.0,!=4.3.0,!=5.0.0,!=5.1.0)", "uvicorn[standard] (>=0.12.0)"]
 
 [[package]]
+name = "fastapi-async-sqlalchemy"
+version = "0.6.0"
+description = "SQLAlchemy middleware for FastAPI"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "fastapi-async-sqlalchemy-0.6.0.tar.gz", hash = "sha256:3a14370bda53528f3597a25caa1eecad6a884d158de6b9fc6e1554025b315092"},
+    {file = "fastapi_async_sqlalchemy-0.6.0-py3-none-any.whl", hash = "sha256:c1b1d27f1a64c009f114c9315878ef7fac84f94bdfc773c73ddfd0bdabd43504"},
+]
+
+[package.dependencies]
+SQLAlchemy = ">=1.4.19"
+starlette = ">=0.13.6"
+
+[[package]]
+name = "fastapi-pagination"
+version = "0.12.11"
+description = "FastAPI pagination"
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "fastapi_pagination-0.12.11-py3-none-any.whl", hash = "sha256:126df48f675240bcce61174cf2d58e7f338635acf25a4c21433c0d88ea178122"},
+    {file = "fastapi_pagination-0.12.11.tar.gz", hash = "sha256:d9693be07ec1a4a33c4297aca9b11e0f8c94f21e84d6da0cbd575d052b795235"},
+]
+
+[package.dependencies]
+fastapi = ">=0.93.0"
+pydantic = ">=1.9.1"
+
+[package.extras]
+all = ["SQLAlchemy (>=1.3.20)", "asyncpg (>=0.24.0)", "beanie (>=1.11.9,<2.0.0)", "bunnet (>=1.1.0,<2.0.0)", "databases (>=0.6.0)", "django (<5.0.0)", "mongoengine (>=0.23.1,<0.28.0)", "motor (>=2.5.1,<4.0.0)", "orm (>=0.3.1)", "ormar (>=0.11.2)", "piccolo (>=0.89,<0.122)", "pony (>=0.7.16,<0.8.0)", "scylla-driver (>=3.25.6,<4.0.0)", "sqlakeyset (>=2.0.1680321678,<3.0.0)", "sqlmodel (>=0.0.8,<0.0.9)", "tortoise-orm (>=0.16.18,<0.21.0)"]
+asyncpg = ["SQLAlchemy (>=1.3.20)", "asyncpg (>=0.24.0)"]
+beanie = ["beanie (>=1.11.9,<2.0.0)"]
+bunnet = ["bunnet (>=1.1.0,<2.0.0)"]
+databases = ["databases (>=0.6.0)"]
+django = ["databases (>=0.6.0)", "django (<5.0.0)"]
+mongoengine = ["mongoengine (>=0.23.1,<0.28.0)"]
+motor = ["motor (>=2.5.1,<4.0.0)"]
+orm = ["databases (>=0.6.0)", "orm (>=0.3.1)"]
+ormar = ["ormar (>=0.11.2)"]
+piccolo = ["piccolo (>=0.89,<0.122)"]
+scylla-driver = ["scylla-driver (>=3.25.6,<4.0.0)"]
+sqlalchemy = ["SQLAlchemy (>=1.3.20)", "sqlakeyset (>=2.0.1680321678,<3.0.0)"]
+sqlmodel = ["sqlakeyset (>=2.0.1680321678,<3.0.0)", "sqlmodel (>=0.0.8,<0.0.9)"]
+tortoise = ["tortoise-orm (>=0.16.18,<0.21.0)"]
+
+[[package]]
 name = "greenlet"
 version = "3.0.0"
 description = "Lightweight in-process concurrent programming"
@@ -868,4 +915,4 @@ standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)",
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "44f374d792a6eaca1de0dfae9349a16b74304aa68d6cc4c1d9ae4d3524f0f336"
+content-hash = "f991fb9c9da6b82638b852e3c64ff7e4e5fbde1b8ba46fbec40788640e368efd"
