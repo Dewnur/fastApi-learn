@@ -1,14 +1,12 @@
-from datetime import datetime
-from typing import Callable, Any, Coroutine
 from uuid import UUID
 
 from fastapi import Request, HTTPException, status, Depends
 from jose import jwt, JWTError, ExpiredSignatureError
-from app.db.session import async_session
 
 from app import crud
 from app.core.config import get_settings
 from app.core.security import JWT_ALGORITHM
+from app.db.session import async_session
 from app.models import User
 
 
@@ -48,7 +46,7 @@ def get_current_user(required_roles: list[str] = None):
 
             if not is_valid_role:
                 raise HTTPException(
-                    status_code=403,
+                    status_code=status.HTTP_403_FORBIDDEN,
                     detail=f"""Role "{required_roles}" is required for this action""",
                 )
         return user

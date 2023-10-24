@@ -26,9 +26,10 @@ class CRUDUser(CRUDBase[User]):
             db_session: async_sessionmaker[AsyncSession] | None = None,
     ) -> User:
         async with db_session() as session:
-            db_obj = self.model()
-            db_obj.email = obj.email
-            db_obj.password_hash = get_password_hash(obj.password)
+            data = obj.model_dump()
+            password = data.pop('password')
+            db_obj = self.model(**data)
+            db_obj.password_hash = get_password_hash(password)
             session.add(db_obj)
             await session.commit()
             await session.refresh(db_obj)
