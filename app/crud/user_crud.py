@@ -1,6 +1,8 @@
+from fastapi import HTTPException
 from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
+from starlette import status
 
 from app.core.security import get_password_hash, verify_password
 from app.crud.crud_base import CRUDBase
@@ -43,7 +45,10 @@ class CRUDUser(CRUDBase[User]):
     ) -> User | None:
         auth_user = await self.get_by_email(db_session=db_session, email=obj.email)
         if not auth_user and not verify_password(obj.password, auth_user.password_hash):
-            return None
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="The email or password you entered is incorrect",
+            )
         return auth_user
 
 
