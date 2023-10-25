@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio.session import AsyncSession
 
 from app import crud
 from app.schemas.role_schema import IRoleCreate
-from app.schemas.user_schema import IUserCreate
+from app.schemas.user_schema import IUserAccess
 
 roles: list[IRoleCreate] = [
     IRoleCreate(name="admin"),
@@ -10,11 +10,10 @@ roles: list[IRoleCreate] = [
     IRoleCreate(name="user"),
 ]
 
-users: list[dict[str, str | IUserCreate]] = [
+users: list[dict[str, str | IUserAccess]] = [
     {
-        "data": IUserCreate(
-            first_name="Admin",
-            last_name="FastAPI",
+        "data": IUserAccess(
+            username="Admin",
             password='root',
             email="admin@example.com",
             is_superuser=True,
@@ -22,9 +21,8 @@ users: list[dict[str, str | IUserCreate]] = [
         "role": "admin",
     },
     {
-        "data": IUserCreate(
-            first_name="Manager",
-            last_name="FastAPI",
+        "data": IUserAccess(
+            username="Manager",
             password='root',
             email="manager@example.com",
             is_superuser=False,
@@ -32,9 +30,8 @@ users: list[dict[str, str | IUserCreate]] = [
         "role": "manager",
     },
     {
-        "data": IUserCreate(
-            first_name="User",
-            last_name="FastAPI",
+        "data": IUserAccess(
+            username="User",
             password='root',
             email="user@example.com",
             is_superuser=False,

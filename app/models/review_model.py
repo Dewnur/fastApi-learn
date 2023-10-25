@@ -14,7 +14,7 @@ class Review(BaseUUIDModel):
     __tablename__ = "review"
 
     product_id: Mapped[UUID] = mapped_column(ForeignKey('product.id'))
-    user_id: Mapped[UUID] = mapped_column(ForeignKey('user.id'))
+    profile_id: Mapped[UUID] = mapped_column(ForeignKey('profile.id'))
     rating: Mapped[int] = mapped_column(nullable=True)
     comment: Mapped[str] = mapped_column(nullable=False)
 

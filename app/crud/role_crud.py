@@ -1,5 +1,5 @@
 from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
+from sqlalchemy.ext.asyncio.session import AsyncSession
 
 from app.crud.crud_base import CRUDBase
 from app.models import Role
@@ -12,11 +12,11 @@ class CRUDRole(CRUDBase[Role]):
             self,
             *,
             name: str,
-            db_session: async_sessionmaker[AsyncSession] | None = None,
+            db_session: AsyncSession | None = None,
     ) -> User:
-        async with db_session() as session:
-            role = await session.execute(select(Role).where(Role.name == name))
-            return role.scalar_one_or_none()
+        db_session = db_session or self.get_db().session
+        role = await db_session.execute(select(Role).where(Role.name == name))
+        return role.scalar_one_or_none()
 
 
 role = CRUDRole(Role)
