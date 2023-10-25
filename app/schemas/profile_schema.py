@@ -3,6 +3,7 @@ from uuid import UUID
 from pydantic import BaseModel
 
 from app.schemas import IGenderEnum
+from app.schemas.user_schema import IUserRead
 
 
 class IProfileBase(BaseModel):
@@ -18,3 +19,11 @@ class IProfileBase(BaseModel):
 
 class IProfileCreate(IProfileBase):
     user_id: UUID = None
+
+
+class IProfileRead(IProfileBase):
+    user: IUserRead
+
+
+class IProfileUpdate(IProfileBase):
+    pass
