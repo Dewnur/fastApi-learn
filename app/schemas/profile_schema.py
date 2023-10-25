@@ -4,6 +4,7 @@ from pydantic import BaseModel
 
 from app.schemas import IGenderEnum
 from app.schemas.user_schema import IUserRead
+from app.utils.phone_type import PhoneType
 
 
 class IProfileBase(BaseModel):
@@ -11,7 +12,7 @@ class IProfileBase(BaseModel):
     last_name: str | None = None
     gender: IGenderEnum | None = None
     address: str | None = None
-    phone_number: str | None = None
+    phone_number: PhoneType | None = None
 
     class Config:
         from_attributes = True
