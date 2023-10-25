@@ -61,7 +61,7 @@ class CRUDBase(Generic[ModelType]):
             obj_current: ModelType,
             obj_new: BaseModel,
             db_session: AsyncSession | None = None,
-    ) -> None:
+    ) -> ModelType:
         db_session = db_session or self.get_db().session
         update_data = obj_new.model_dump(
             exclude_unset=True
@@ -78,7 +78,7 @@ class CRUDBase(Generic[ModelType]):
             *,
             id: UUID,
             db_session: AsyncSession | None = None,
-    ) -> None:
+    ) -> ModelType:
         db_session = db_session or self.get_db().session
         query = await db_session.execute(
             select(self.model).where(self.model.id == id)

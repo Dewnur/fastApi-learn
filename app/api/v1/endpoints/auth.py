@@ -12,9 +12,6 @@ from app.schemas.user_schema import IUserCreate, IUserAccess
 router = APIRouter()
 
 
-# TODO: Создать таблицу Profile, связать ее с User
-#  При создании user автоматически создавать пустой profile
-
 @router.post('/register', status_code=status.HTTP_201_CREATED)
 async def register_user(
         user: IUserCreate = Depends(user_existing),
@@ -27,14 +24,6 @@ async def register_user(
     new_profile = IProfileCreate(user_id=new_user.id)
     await crud.profile.create(obj=new_profile)
 
-
-# @router.post('/register-superuser', status_code=status.HTTP_201_CREATED)
-# async def register_superuser(
-#         user: IUserCreate = Depends(user_existing),
-# ):
-#     role_user = await crud.role.fetch_one(id=user.role_id)
-#     user.role_id = role_user
-#     await crud.user.create(obj=user)
 
 @router.post('/login')
 async def login_user(
