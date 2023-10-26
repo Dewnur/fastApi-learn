@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends, status, HTTPException
 
 from app import crud
 from app.api.deps import get_current_user, model_id_existing
-from app.dependencies.user_deps import user_id_existing
 from app.models import User
 from app.schemas.role_schema import IRoleEnum
 from app.schemas.user_schema import IUserRead, IUserUpdate
@@ -25,10 +24,10 @@ async def get_user_by_id(
     return user_by_id
 
 
-@router.put('/{user_id}')
+@router.put('/{obj_id}')
 async def update_user(
         user: IUserUpdate,
-        user_by_id: IUserRead = Depends(user_id_existing),
+        user_by_id: IUserRead = Depends(model_id_existing(User)),
         current_user: User = Depends(get_current_user())
 ) -> IUserRead:
     if not current_user.id == user_by_id.id:
@@ -36,9 +35,9 @@ async def update_user(
     return await crud.user.update(obj_current=user_by_id, obj_new=user)
 
 
-@router.delete('/{user_id}', status_code=status.HTTP_200_OK)
+@router.delete('/{obj_id}', status_code=status.HTTP_200_OK)
 async def delete_user(
-        user_by_id: IUserRead = Depends(user_id_existing),
+        user_by_id: IUserRead = Depends(model_id_existing(User)),
         current_user: User = Depends(get_current_user([IRoleEnum.admin]))
 ):
     if user_by_id.id == current_user.id:
