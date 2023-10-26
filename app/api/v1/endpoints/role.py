@@ -16,7 +16,7 @@ async def get_role_by_id(
     return role_by_id
 
 
-@router.get('/roleList')
+@router.get('')
 async def get_role_list(
         current_user: User = Depends(get_current_user([IRoleEnum.admin]))
 ) -> list[IRoleRead]:
