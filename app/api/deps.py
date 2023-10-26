@@ -1,3 +1,4 @@
+from typing import TypeVar, Generic
 from uuid import UUID
 
 from fastapi import Request, HTTPException, status, Depends
@@ -6,7 +7,11 @@ from jose import jwt, JWTError, ExpiredSignatureError
 from app import crud
 from app.core.config import get_settings
 from app.core.security import JWT_ALGORITHM
-from app.models import User
+from app.crud.crud_base import CRUDBase
+from app.models import User, Base
+from app.utils.exceptions.common_exception import IdNotFoundException
+
+ModelType = TypeVar("ModelType", bound=Base)
 
 
 def get_token(request: Request):
@@ -51,3 +56,14 @@ def get_current_user(required_roles: list[str] = None):
         return user
 
     return current_user
+
+
+def model_id_existing(model: Generic[ModelType]):
+    async def get_model(obj_id: UUID):
+        model_crud = CRUDBase(model)
+        obj = await model_crud.fetch_one(id=obj_id)
+        if not obj:
+            raise IdNotFoundException(model=model, id=obj_id)
+        return obj
+
+    return get_model
