@@ -4,8 +4,8 @@ from pydantic import BaseModel
 
 
 class IProductCreate(BaseModel):
-    name: str
-    description: str
-    price: float
-    stock_quantity: int
-    category_id: UUID
+    name: str | None = None
+    description: str | None = None
+    price: float | None = None
+    stock_quantity: int | None = None
+    category_id: UUID | None = None
