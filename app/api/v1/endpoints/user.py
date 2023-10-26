@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status, HTTPException
 
 from app import crud
-from app.api.deps import get_current_user
+from app.api.deps import get_current_user, model_id_existing
 from app.dependencies.user_deps import user_id_existing
 from app.models import User
 from app.schemas.role_schema import IRoleEnum
@@ -17,9 +17,9 @@ async def get_user(
     return current_user
 
 
-@router.get('/{user_id}')
+@router.get('/{obj_id}')
 async def get_user_by_id(
-        user_by_id: IUserRead = Depends(user_id_existing),
+        user_by_id: IUserRead = Depends(model_id_existing(User)),
         current_user: User = Depends(get_current_user([IRoleEnum.admin]))
 ) -> IUserRead:
     return user_by_id

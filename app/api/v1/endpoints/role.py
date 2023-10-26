@@ -1,20 +1,24 @@
-from fastapi import APIRouter, status, Depends
-from fastapi_async_sqlalchemy import db
-from fastapi_pagination import Params
+from fastapi import APIRouter, Depends
 
 from app import crud
-from app.api.deps import get_current_user
-from app.db.session import async_session
-from app.models import User
+from app.api.deps import get_current_user, model_id_existing
+from app.models import User, Role
 from app.schemas.role_schema import IRoleEnum, IRoleRead
-from app.schemas.user_schema import IUserCreate
 
 router = APIRouter()
 
 
-@router.get('/{role_id}')
-async def create_products(
+@router.get('/{obj_id}')
+async def get_role_by_id(
+        role_by_id: IRoleRead = Depends(model_id_existing(Role)),
         current_user: User = Depends(get_current_user([IRoleEnum.admin]))
 ) -> IRoleRead:
-    # role = await crud.role.fetch_one()
-    pass
+    return role_by_id
+
+
+@router.get('/roleList')
+async def get_role_list(
+        current_user: User = Depends(get_current_user([IRoleEnum.admin]))
+) -> list[IRoleRead]:
+    role_list = await crud.role.fetch_all()
+    return role_list
