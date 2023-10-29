@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from pydantic import BaseModel
 
 
@@ -18,4 +20,4 @@ class ICategoryUpdate(ICategoryBase):
 
 
 class ICategoryRead(ICategoryBase):
-    pass
+    id: UUID
