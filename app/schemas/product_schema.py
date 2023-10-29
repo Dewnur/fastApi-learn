@@ -2,10 +2,28 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
+from app.schemas.category_schema import ICategoryRead
 
-class IProductCreate(BaseModel):
+
+class IProductBase(BaseModel):
     name: str | None = None
     description: str | None = None
     price: float | None = None
     stock_quantity: int | None = None
     category_id: UUID | None = None
+
+    class Config:
+        from_attributes = True
+
+
+class IProductCreate(IProductBase):
+    pass
+
+
+class IProductUpdate(IProductBase):
+    pass
+
+
+class IProductRead(IProductBase):
+    id: UUID
+    category: ICategoryRead
