@@ -7,6 +7,9 @@ load_dotenv()
 
 
 class Settings(BaseSettings):
+    API_VERSION: str = "v1"
+    API_V1_STR: str = f"/api/{API_VERSION}"
+
     postgres_host: str
     postgres_port: int
     postgres_user: str
