@@ -16,10 +16,12 @@ async def get_user(
     return current_user
 
 
-@router.get('/{obj_id}')
+@router.get(
+    '/{obj_id}',
+    dependencies=[Depends(get_current_user([IRoleEnum.admin]))]
+)
 async def get_user_by_id(
         user_by_id: IUserRead = Depends(model_id_existing(User)),
-        current_user: User = Depends(get_current_user([IRoleEnum.admin]))
 ) -> IUserRead:
     return user_by_id
 
