@@ -8,8 +8,7 @@ from app.models.base_model import BaseUUIDModel
 
 if TYPE_CHECKING:
     from app.models.category_model import Category
-    from app.models.review_model import Review
-    from app.models.discount_model import Discount
+
 
 
 class Product(BaseUUIDModel):
@@ -22,5 +21,4 @@ class Product(BaseUUIDModel):
     category_id: Mapped[UUID] = mapped_column(ForeignKey('category.id'))
 
     categories: Mapped['Category'] = relationship(back_populates='products', lazy='selectin')
-    reviews: Mapped[list['Review']] = relationship(back_populates='product', lazy='selectin')
-    discount: Mapped['Discount'] = relationship(back_populates='product')
+
