@@ -19,7 +19,7 @@ class Product(BaseUUIDModel):
     price: Mapped[float] = mapped_column(nullable=False)
     stock_quantity: Mapped[int] = mapped_column(nullable=False)
     category_id: Mapped[UUID] = mapped_column(ForeignKey('category.id'))
-    image_id: Mapped[UUID] = mapped_column(ForeignKey('image.id'))
+    image_id: Mapped[UUID] = mapped_column(ForeignKey('image.id'), nullable=True)
 
-    categories: Mapped['Category'] = relationship(back_populates='products', lazy='selectin')
+    category: Mapped['Category'] = relationship(back_populates='products', lazy='selectin')
     image: Mapped['Image'] = relationship(back_populates='product', lazy='selectin')

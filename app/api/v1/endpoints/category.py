@@ -1,25 +1,55 @@
-from fastapi import Depends
+from fastapi import APIRouter, Depends
+from starlette import status
 
-from app.api.deps import get_current_user
-from app.api.router_base import BaseAPIMethods
-from app.api.router_base import BaseAPIRouter
+from app import crud
+from app.api.deps import model_id_existing, get_current_user
 from app.models import Category
-from app.schemas.category_schema import ICategoryRead, ICategoryUpdate, ICategoryCreate
+from app.schemas.category_schema import ICategoryRead, ICategoryCreate
 from app.schemas.role_schema import IRoleEnum
+from app.utils.exceptions.common_exception import NameExistException
+
+router = APIRouter()
 
 
-class CategoryAPIRouter(BaseAPIRouter[Category, ICategoryCreate, ICategoryRead, ICategoryUpdate]):
-    pass
-
-
-router = CategoryAPIRouter(
-    Category,
-    ICategoryCreate,
-    ICategoryRead,
-    ICategoryUpdate,
-    depends_mapping={
-        BaseAPIMethods.post: [Depends(get_current_user([IRoleEnum.admin, IRoleEnum.manager]))],
-        BaseAPIMethods.put: [Depends(get_current_user([IRoleEnum.admin, IRoleEnum.manager]))],
-        BaseAPIMethods.delete: [Depends(get_current_user([IRoleEnum.admin, IRoleEnum.manager]))],
-    }
+@router.get(
+    path='/{obj_id}',
+    status_code=status.HTTP_200_OK,
 )
+async def get_category_by_id(
+        category_by_id: ICategoryRead = Depends(model_id_existing(Category))
+):
+    return category_by_id
+
+
+@router.get(
+    path='',
+    status_code=status.HTTP_200_OK,
+)
+async def get_category_list() -> list[ICategoryRead]:
+    return await crud.category.fetch_all()
+
+
+@router.post(
+    path='',
+    status_code=status.HTTP_201_CREATED,
+    dependencies=[Depends(get_current_user([IRoleEnum.admin, IRoleEnum.manager]))],
+)
+async def post_category(
+        category: ICategoryCreate
+):
+    category_exist = crud.product.fetch_one(name=category.name)
+    if not category_exist:
+        raise NameExistException(model=Category, name=category.name)
+    return await crud.category.create(obj=category)
+
+
+@router.put(
+    path='/{obj_id}',
+    status_code=status.HTTP_200_OK,
+    dependencies=[Depends(get_current_user([IRoleEnum.admin, IRoleEnum.manager]))],
+)
+async def update_category(
+        category: ICategoryCreate,
+        category_by_id: ICategoryRead = Depends(model_id_existing(Category))
+) -> None:
+    await crud.category.update(obj_current=category_by_id, obj_new=category)

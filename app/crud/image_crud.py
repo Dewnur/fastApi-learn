@@ -1,3 +1,4 @@
+import datetime
 import hashlib
 import os
 import shutil
@@ -17,30 +18,25 @@ class CRUDImage(CRUDBase[Image]):
             db_session: AsyncSession | None = None,
     ) -> Image:
         db_session = db_session or self.get_db().session
-        # Получаем расширение файла
-        file_extension = file.filename.split(".")[-1]
 
-        #### Получаем хешированное имя файла ####
-        # Создаем объект хеша (SHA-256)
+        file_format = file.filename.split(".")[-1]
+
         hasher = hashlib.sha256()
-        # Обновляем хеш с использованием имени файла
-        hasher.update(file.filename.encode("utf-8"))
-        # Возвращаем хеш в шестнадцатеричном формате
+        file_name = str(datetime.datetime.utcnow()) + file.filename
+        hasher.update(file_name.encode("utf-8"))
         file_hash = hasher.hexdigest()
 
-        #### Создаем путь файла ####
         depth = 2
         subdirectory = os.path.join(*[file_hash[i:i + depth] for i in range(0, depth, depth)])
         upload_dir = "app/static/images/"
-        file_path = os.path.join(upload_dir, subdirectory, file_hash)
+        file_path = os.path.normpath(os.path.join(upload_dir, subdirectory, file_hash))
 
         os.makedirs(os.path.join(upload_dir, subdirectory), exist_ok=True)
 
-        # Сохраняем файл
         with open(file_path, "wb") as dest_file:
             shutil.copyfileobj(file.file, dest_file)
 
-        image = Image(path=file_path, format=file_extension, name=file.filename)
+        image = Image(path=file_path, format=file_format, name=file_hash[:11])
 
         db_session.add(image)
         await db_session.commit()

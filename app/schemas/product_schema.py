@@ -3,6 +3,7 @@ from uuid import UUID
 from pydantic import BaseModel
 
 from app.schemas.category_schema import ICategoryRead
+from app.schemas.image_schema import IImageRead
 
 
 class IProductBase(BaseModel):
@@ -26,4 +27,5 @@ class IProductUpdate(IProductBase):
 
 class IProductRead(IProductBase):
     id: UUID
-    category: ICategoryRead
+    category: ICategoryRead | None = None
+    image: IImageRead | None = None

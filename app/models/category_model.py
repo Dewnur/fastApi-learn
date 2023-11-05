@@ -14,4 +14,4 @@ class Category(BaseUUIDModel):
     name: Mapped[str] = mapped_column(nullable=False, unique=True)
     description: Mapped[str] = mapped_column(nullable=True)
 
-    products: Mapped[list['Product']] = relationship(back_populates='categories')
+    products: Mapped[list['Product']] = relationship(back_populates='category')
