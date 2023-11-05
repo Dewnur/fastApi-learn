@@ -21,6 +21,7 @@ fastapi-pagination = "^0.12.11"
 fastapi-async-sqlalchemy = "^0.6.0"
 pydantic-extra-types = "^2.1.0"
 phonenumbers = "^8.13.23"
+python-multipart = "^0.0.6"
 
 
 [tool.poetry.group.dev.dependencies]
