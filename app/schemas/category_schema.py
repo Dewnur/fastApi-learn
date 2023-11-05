@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 class ICategoryBase(BaseModel):
     name: str
-    description: str
+    description: str | None = None
 
     class Config:
         from_attributes = True
