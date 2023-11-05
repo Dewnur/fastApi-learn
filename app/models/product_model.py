@@ -8,7 +8,7 @@ from app.models.base_model import BaseUUIDModel
 
 if TYPE_CHECKING:
     from app.models.category_model import Category
-
+    from app.models.image_model import Image
 
 
 class Product(BaseUUIDModel):
@@ -19,6 +19,7 @@ class Product(BaseUUIDModel):
     price: Mapped[float] = mapped_column(nullable=False)
     stock_quantity: Mapped[int] = mapped_column(nullable=False)
     category_id: Mapped[UUID] = mapped_column(ForeignKey('category.id'))
+    image_id: Mapped[UUID] = mapped_column(ForeignKey('image.id'))
 
     categories: Mapped['Category'] = relationship(back_populates='products', lazy='selectin')
-
+    image: Mapped['Image'] = relationship(back_populates='product', lazy='selectin')
