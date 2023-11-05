@@ -1,6 +1,7 @@
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
 from app import crud
+from app.schemas.category_schema import ICategoryCreate
 from app.schemas.role_schema import IRoleCreate
 from app.schemas.user_schema import IUserAccess
 
@@ -40,6 +41,12 @@ users: list[dict[str, str | IUserAccess]] = [
     },
 ]
 
+categories: list[ICategoryCreate] = [
+    ICategoryCreate(name='Electronics'),
+    ICategoryCreate(name='Cloth'),
+    ICategoryCreate(name='Furniture'),
+]
+
 
 async def init_db(async_session: AsyncSession):
     for role in roles:
@@ -59,3 +66,8 @@ async def init_db(async_session: AsyncSession):
         if not current_user:
             user["data"].role_id = role.id
             await crud.user.create(obj=user["data"], db_session=async_session)
+
+    for category in categories:
+        category_exist = await crud.category.fetch_one(name=category.name, db_session=async_session)
+        if not category_exist:
+            await crud.category.create(obj=category, db_session=async_session)
