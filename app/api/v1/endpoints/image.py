@@ -8,7 +8,7 @@ from app.schemas.image_schema import IImageRead
 router = APIRouter()
 
 
-@router.post('', status_code=status.HTTP_201_CREATED)
+@router.post('/uploads', status_code=status.HTTP_201_CREATED)
 async def post_image(
         file: UploadFile = Depends(image_type_existing)
 ) -> IImageRead:

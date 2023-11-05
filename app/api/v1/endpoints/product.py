@@ -4,7 +4,7 @@ from app import crud
 from app.api.deps import get_current_user, model_id_existing
 from app.dependencies.image_deps import image_type_existing
 from app.models import Product
-from app.schemas.product_schema import IProductCreate, IProductRead
+from app.schemas.product_schema import IProductCreate, IProductRead, IProductUpdate
 from app.schemas.role_schema import IRoleEnum
 from app.utils.exceptions.common_exception import NameExistException
 
@@ -43,20 +43,8 @@ async def post_product(
     return await crud.product.create(obj=product)
 
 
-@router.put(
-    path='/{obj_id}',
-    status_code=status.HTTP_200_OK,
-    dependencies=[Depends(get_current_user([IRoleEnum.admin, IRoleEnum.manager]))],
-)
-async def update_product(
-        product: IProductCreate,
-        product_by_id: IProductRead = Depends(model_id_existing(Product))
-) -> None:
-    await crud.product.update(obj_current=product_by_id, obj_new=product)
-
-
 @router.post(
-    path='/{obj_id}/image',
+    path='/uploads/{obj_id}/image',
     status_code=status.HTTP_201_CREATED,
     dependencies=[Depends(get_current_user([IRoleEnum.admin, IRoleEnum.manager]))],
 )
@@ -65,3 +53,26 @@ async def upload_product_image(
         product_by_id: Product = Depends(model_id_existing(Product))
 ) -> IProductRead:
     return await crud.product.update_image(file=file, product=product_by_id)
+
+
+@router.put(
+    path='/{obj_id}',
+    status_code=status.HTTP_200_OK,
+    dependencies=[Depends(get_current_user([IRoleEnum.admin, IRoleEnum.manager]))],
+)
+async def update_product(
+        product: IProductUpdate,
+        product_by_id: IProductRead = Depends(model_id_existing(Product))
+) -> IProductRead:
+    return await crud.product.update(obj_current=product_by_id, obj_new=product)
+
+
+@router.delete(
+    path='/{obj_id}',
+    status_code=status.HTTP_200_OK,
+    dependencies=[Depends(get_current_user([IRoleEnum.admin, IRoleEnum.manager]))],
+)
+async def delete_product(
+        product_by_id: IProductRead = Depends(model_id_existing(Product))
+) -> None:
+    await crud.product.delete(id=product_by_id.id)
