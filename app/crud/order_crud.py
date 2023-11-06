@@ -5,7 +5,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app import crud
 from app.crud.crud_base import CRUDBase
 from app.models import Order, OrderItem, Product
-from app.schemas import IOrderStatus
 from app.schemas.order_schema import IOrderCreate
 from app.utils.exceptions.common_exception import IdNotFoundException
 
@@ -26,7 +25,10 @@ class CRUDOrder(CRUDBase[Order]):
             for item in order.order_items:
                 product = await crud.product.fetch_one(id=item.product_id)
                 if not product:
-                    raise IdNotFoundException(model=Product, id=item.product_id)
+                    raise IdNotFoundException(
+                        model=Product,
+                        id=item.product_id
+                    )
                 if product.stock_quantity <= 0 or product.stock_quantity < item.quantity:
                     raise HTTPException(
                         status_code=status.HTTP_400_BAD_REQUEST,
@@ -53,7 +55,10 @@ class CRUDOrder(CRUDBase[Order]):
             return new_order
         except SQLAlchemyError as e:
             await db_session.rollback()
-            raise HTTPException(status_code=500, detail=str(e))
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=str(e)
+            )
 
 
 order = CRUDOrder(Order)
