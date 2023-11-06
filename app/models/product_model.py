@@ -9,6 +9,7 @@ from app.models.base_model import BaseUUIDModel
 if TYPE_CHECKING:
     from app.models.category_model import Category
     from app.models.image_model import Image
+    from app.models.order_item_model import OrderItem
 
 
 class Product(BaseUUIDModel):
@@ -23,3 +24,4 @@ class Product(BaseUUIDModel):
 
     category: Mapped['Category'] = relationship(back_populates='products', lazy='selectin')
     image: Mapped['Image'] = relationship(back_populates='product', lazy='selectin')
+    order_items: Mapped[list['OrderItem']] = relationship(back_populates='product')

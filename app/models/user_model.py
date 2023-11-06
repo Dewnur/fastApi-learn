@@ -20,5 +20,5 @@ class User(BaseUUIDModel):
     role_id: Mapped[UUID] = mapped_column(ForeignKey('role.id'))
     is_superuser: Mapped[bool] = mapped_column(default=False)
 
-    profile: Mapped['Profile'] = relationship(back_populates='user', cascade="all, delete")
+    profile: Mapped['Profile'] = relationship(back_populates='user', cascade="all, delete", lazy='selectin')
     role: Mapped['Role'] = relationship(back_populates='user', lazy='selectin')
