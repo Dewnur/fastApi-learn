@@ -1,0 +1,23 @@
+[
+  {
+    "username": "admin",
+    "email": "admin@test.com",
+    "password_hash": "root",
+    "is_superuser": true,
+    "role_id": "00000000-0000-0000-0000-000000000001"
+  },
+  {
+    "username": "manager",
+    "email": "manager@test.com",
+    "password_hash": "root",
+    "is_superuser": true,
+    "role_id": "00000000-0000-0000-0000-000000000002"
+  },
+  {
+    "username": "user",
+    "email": "user@test.com",
+    "password_hash": "root",
+    "is_superuser": true,
+    "role_id": "00000000-0000-0000-0000-000000000003"
+  }
+]
