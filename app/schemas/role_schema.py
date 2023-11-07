@@ -7,7 +7,7 @@ from pydantic import BaseModel
 class IRoleBase(BaseModel):
     name: str
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 

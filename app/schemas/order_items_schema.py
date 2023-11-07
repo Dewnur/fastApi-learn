@@ -7,7 +7,7 @@ class IOrderItemBase(BaseModel):
     product_id: UUID
     quantity: int
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 

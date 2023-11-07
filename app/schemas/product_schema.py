@@ -13,7 +13,7 @@ class IProductBase(BaseModel):
     stock_quantity: int | None = None
     category_id: UUID | None = None
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 

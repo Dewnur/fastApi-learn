@@ -8,7 +8,7 @@ class IImageBase(BaseModel):
     name: str
     format: str
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 

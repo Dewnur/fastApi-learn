@@ -14,7 +14,7 @@ class IProfileBase(BaseModel):
     address: str | None = None
     phone_number: PhoneType | None = None
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 
@@ -23,6 +23,7 @@ class IProfileCreate(IProfileBase):
 
 
 class IProfileRead(IProfileBase):
+    id: UUID
     user: IUserRead
 
 

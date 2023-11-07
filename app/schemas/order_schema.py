@@ -12,7 +12,7 @@ class IOrderBase(BaseModel):
     status: IOrderStatus
     total_amount: float
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 
@@ -21,4 +21,5 @@ class IOrderCreate(IOrderBase):
 
 
 class IOrderRead(IOrderBase):
+    id: UUID
     order_date: datetime

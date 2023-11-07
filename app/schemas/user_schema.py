@@ -7,7 +7,7 @@ class IUserBase(BaseModel):
     username: str = None
     email: EmailStr = None
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 

@@ -7,7 +7,7 @@ class ICategoryBase(BaseModel):
     name: str
     description: str | None = None
 
-    class Config:
+    class ConfigDict:
         from_attributes = True
 
 
