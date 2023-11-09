@@ -1,7 +1,7 @@
 from typing import TypeVar, Generic
 from uuid import UUID
 
-from fastapi import Request, HTTPException, status, Depends
+from fastapi import Request, Depends
 from jose import jwt, JWTError, ExpiredSignatureError
 
 from app import crud
@@ -9,6 +9,13 @@ from app.core.config import get_settings
 from app.core.security import JWT_ALGORITHM
 from app.crud.crud_base import CRUDBase
 from app.models import User, Base
+from app.utils.exceptions.auth_exception import (
+    TokenExpiredException,
+    InvalidTokenException,
+    MissingTokenException,
+    UserNotFoundException,
+    InvalidRoleException,
+)
 from app.utils.exceptions.common_exception import IdNotFoundException
 
 ModelType = TypeVar("ModelType", bound=Base)
@@ -17,7 +24,7 @@ ModelType = TypeVar("ModelType", bound=Base)
 def get_token(request: Request):
     token = request.cookies.get(get_settings().name_access_token)
     if not token:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+        raise MissingTokenException()
     return token
 
 
@@ -32,15 +39,15 @@ def get_current_user(required_roles: list[str] = None):
                 algorithms=JWT_ALGORITHM,
             )
         except ExpiredSignatureError:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Token expired")
+            raise TokenExpiredException()
         except JWTError:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid token")
+            raise InvalidTokenException()
         user_id: str = payload.get('sub')
         if not user_id:
-            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="User ID not found in token")
+            raise InvalidTokenException()
         user = await crud.user.fetch_one(id=UUID(user_id))
         if not user:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
+            raise UserNotFoundException()
 
         if required_roles:
             is_valid_role = False
@@ -49,10 +56,7 @@ def get_current_user(required_roles: list[str] = None):
                     is_valid_role = True
 
             if not is_valid_role:
-                raise HTTPException(
-                    status_code=status.HTTP_403_FORBIDDEN,
-                    detail=f"""Role "{required_roles}" is required for this action""",
-                )
+                raise InvalidRoleException()
         return user
 
     return current_user
