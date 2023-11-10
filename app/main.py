@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi_async_sqlalchemy import SQLAlchemyMiddleware
+from sqlalchemy import NullPool, QueuePool
 from starlette.middleware.cors import CORSMiddleware
 
 from app.api.v1.api import api_router
@@ -32,6 +33,9 @@ app.add_middleware(
         "pool_pre_ping": True,
         "pool_size": 5,
         "max_overflow": 10,
+        "poolclass": NullPool
+        if get_settings().mode == 'TEST'
+        else QueuePool,
     },
 )
 
