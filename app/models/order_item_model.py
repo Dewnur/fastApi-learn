@@ -19,5 +19,5 @@ class OrderItem(BaseUUIDModel):
     quantity: Mapped[int] = mapped_column()
     unit_price: Mapped[float] = mapped_column(Numeric(15, 2))
 
-    order: Mapped['Order'] = relationship(back_populates='order_items', lazy='selectin')
-    product: Mapped['Product'] = relationship(back_populates='order_items')
+    order: Mapped['Order'] = relationship(back_populates='order_items')
+    product: Mapped['Product'] = relationship(back_populates='order_items', lazy='selectin')

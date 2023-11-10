@@ -23,3 +23,7 @@ class IOrderCreate(IOrderBase):
 class IOrderRead(IOrderBase):
     id: UUID
     order_date: datetime
+
+
+class IOrderWithItems(IOrderRead):
+    order_items: list[IOrderItemRead]
