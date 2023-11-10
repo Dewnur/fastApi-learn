@@ -1,14 +1,16 @@
 from typing import TypeVar, Generic
 from uuid import UUID
 
-from fastapi import Request, Depends
+from fastapi import Request, Depends, HTTPException, status, Path
 from jose import jwt, JWTError, ExpiredSignatureError
+from sqlalchemy.exc import NoResultFound
 
 from app import crud
 from app.core.config import get_settings
 from app.core.security import JWT_ALGORITHM
 from app.crud.crud_base import CRUDBase
-from app.models import User, Base
+from app.db.session import async_session
+from app.models import User, Base, Profile
 from app.utils.exceptions.auth_exception import (
     TokenExpiredException,
     InvalidTokenException,
@@ -19,6 +21,11 @@ from app.utils.exceptions.auth_exception import (
 from app.utils.exceptions.common_exception import IdNotFoundException
 
 ModelType = TypeVar("ModelType", bound=Base)
+
+
+async def get_db_session():
+    async with async_session() as session:
+        yield session
 
 
 def get_token(request: Request):
@@ -71,3 +78,11 @@ def model_id_existing(model: Generic[ModelType]):
         return obj
 
     return get_model
+
+
+async def get_model_by_id(obj_id: UUID, model: Generic[ModelType]):
+    model_crud = CRUDBase(model)
+    obj = await model_crud.fetch_one(id=obj_id)
+    if not obj:
+        raise IdNotFoundException(model=model, id=obj_id)
+    return obj
