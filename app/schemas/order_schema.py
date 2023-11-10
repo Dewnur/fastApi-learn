@@ -4,13 +4,12 @@ from uuid import UUID
 from pydantic import BaseModel
 
 from app.schemas import IOrderStatus
-from app.schemas.order_items_schema import IOrderItemCreate
+from app.schemas.order_items_schema import IOrderItemCreate, IOrderItemRead
 
 
 class IOrderBase(BaseModel):
-    order_items: list[IOrderItemCreate]
-    status: IOrderStatus
-    total_amount: float
+    status: IOrderStatus = IOrderStatus.processing
+    total_amount: float = 0.0
 
     class ConfigDict:
         from_attributes = True
@@ -18,6 +17,7 @@ class IOrderBase(BaseModel):
 
 class IOrderCreate(IOrderBase):
     profile_id: UUID
+    order_items: list[IOrderItemCreate]
 
 
 class IOrderRead(IOrderBase):
