@@ -8,7 +8,7 @@ from sqlalchemy import insert
 from app.core.config import get_settings
 from app.db.session import engine, async_session
 from app.main import app
-from app.models import Base, Role, User
+from app.models import Base, Role, User, Profile, Category, Product
 
 settings = get_settings()
 
@@ -27,11 +27,17 @@ async def prepare_database():
 
     roles = open_mock_json("roles")
     users = open_mock_json("users")
+    profiles = open_mock_json("profiles")
+    categories = open_mock_json("categories")
+    products = open_mock_json("products")
 
     async with async_session() as session:
         for Model, values in [
             (Role, roles),
             (User, users),
+            (Profile, profiles),
+            (Category, categories),
+            (Product, products),
         ]:
             query = insert(Model).values(values)
             await session.execute(query)
@@ -55,12 +61,30 @@ async def ac():
 
 
 @pytest.fixture(scope="session")
-async def authenticated_ac():
+async def auth_user_ac():
     "Асинхронный аутентифицированный клиент для тестирования эндпоинтов"
     async with AsyncClient(app=app, base_url="http://test") as ac:
         await ac.post("/api/v1/auth/login", json={
-            "email": "tests@tests.com",
-            "password": "tests",
+            "email": "test@test.com",
+            "password": "root",
         })
         assert ac.cookies["market_access_token"]
         yield ac
+
+
+@pytest.fixture(scope="session")
+async def auth_admin_ac():
+    "Асинхронный аутентифицированный клиент для тестирования эндпоинтов"
+    async with AsyncClient(app=app, base_url="http://test") as ac:
+        await ac.post("/api/v1/auth/login", json={
+            "email": "admin@test.com",
+            "password": "root",
+        })
+        assert ac.cookies["market_access_token"]
+        yield ac
+
+
+@pytest.fixture(scope="session")
+async def get_db_session():
+    async with async_session() as session:
+        yield session

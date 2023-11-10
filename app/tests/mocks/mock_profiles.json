@@ -1,0 +1,11 @@
+[
+  {
+    "id": "00000000-0000-0000-0000-000000000001",
+    "first_name": "Ivan",
+    "last_name": "Ivanov",
+    "gender": "male",
+    "address": "address....",
+    "phone_number": "+79854687321",
+    "user_id": "00000000-0000-0000-0000-000000000003"
+  }
+]
