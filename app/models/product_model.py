@@ -25,3 +25,6 @@ class Product(BaseUUIDModel):
     category: Mapped['Category'] = relationship(back_populates='products', lazy='selectin')
     image: Mapped['Image'] = relationship(back_populates='product', lazy='selectin')
     order_items: Mapped[list['OrderItem']] = relationship(back_populates='product')
+
+    def is_available_for(self, quantity: int) -> bool:
+        return self.stock_quantity > 0 and self.stock_quantity >= quantity
