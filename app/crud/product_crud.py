@@ -14,7 +14,7 @@ class CRUDProduct(CRUDBase[Product]):
             product: Product,
             db_session: AsyncSession | None = None,
     ) -> Product:
-        db_session = db_session or self.get_db().session
+        db_session = db_session or super().get_db().session
         image: Image = await create_image(file=file, db_session=db_session)
         product.image = image
         db_session.add(product)
