@@ -1,6 +1,7 @@
 import datetime
 import hashlib
 import os
+import pathlib
 import shutil
 
 from fastapi import UploadFile
@@ -14,8 +15,14 @@ async def create_image(
         file: UploadFile,
         db_session: AsyncSession | None = None,
 ) -> Image:
-    upload_dir = "app/static/images/"
+    # Сохраняем исходную текущую рабочую директорию
+    original_cwd = os.getcwd()
 
+    script_dir = pathlib.Path(__file__).parent.resolve()
+    # Изменяем рабочую директорию, например, на директорию скрипта
+    os.chdir(script_dir)
+
+    upload_dir = os.path.abspath('../static/images/')
     file_format = file.filename.split(".")[-1]
 
     image_name = get_hash_str(file.filename)[:7]
@@ -25,6 +32,9 @@ async def create_image(
         file_name=image_name,
         makedir=True,
     )
+
+    # Возвращаемся обратно к исходной рабочей директории
+    os.chdir(original_cwd)
 
     with open(file_path, "wb") as dest_file:
         shutil.copyfileobj(file.file, dest_file)
