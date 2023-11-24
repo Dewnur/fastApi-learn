@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException, status, Response, Depends
-from pydantic import EmailStr
 
 from app import crud
 from app.core.config import get_settings
@@ -7,7 +6,7 @@ from app.core.security import create_access_token
 from app.dependencies.user_deps import user_existing
 from app.schemas.profile_schema import IProfileCreate
 from app.schemas.role_schema import IRoleEnum
-from app.schemas.user_schema import IUserCreate, IUserAccess
+from app.schemas.user_schema import IUserCreate, IUserAccess, LoginData
 
 router = APIRouter()
 
@@ -28,9 +27,10 @@ async def register_user(
 @router.post('/login')
 async def login_user(
         response: Response,
-        email: EmailStr,
-        password: str
+        login_data: LoginData
 ):
+    email = login_data.email
+    password = login_data.password
     auth_user = await crud.user.authenticate(obj=IUserCreate(email=email, password=password))
     if not auth_user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)

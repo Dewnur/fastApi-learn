@@ -26,3 +26,7 @@ class IUserRead(IUserBase):
 
 class IUserUpdate(IUserBase):
     pass
+
+class LoginData(BaseModel):
+    email: EmailStr
+    password: str
