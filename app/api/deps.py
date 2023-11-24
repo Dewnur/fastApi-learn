@@ -30,8 +30,6 @@ async def get_db_session():
 
 def get_token(request: Request):
     token = request.cookies.get(get_settings().name_access_token)
-    if not token:
-        raise MissingTokenException()
     return token
 
 
@@ -39,6 +37,8 @@ def get_current_user(required_roles: list[str] = None):
     async def current_user(
             token: str = Depends(get_token)
     ) -> User:
+        if not token:
+            raise MissingTokenException()
         try:
             payload = jwt.decode(
                 token,
