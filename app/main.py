@@ -6,6 +6,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from app.api.v1.api import api_router
 from app.core.config import get_settings
+from app.pages.client import client_router
 
 app = FastAPI()
 
@@ -38,5 +39,5 @@ app.add_middleware(
         else QueuePool,
     },
 )
-
+app.include_router(client_router, prefix='/pages', tags=['pages'])
 app.include_router(api_router, prefix=get_settings().API_V1_STR)

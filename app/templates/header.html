@@ -1,0 +1,29 @@
+    <script>
+        async function logoutUser() {
+            const url = "http://127.0.0.1:8000/api/v1/auth/logout";
+
+            await fetch(url, {
+                method: 'POST',
+            }).then(response => {
+                if (response.status === 200) {
+                    window.location.href = "/pages/"
+                }
+            });
+        }
+    </script>
+<header>
+    <h1>Добро пожаловать в наш магазин</h1>
+    <nav>
+        <ul>
+            <li><a href="/pages">Главная</a></li>
+            <li><a href="#">Каталог</a></li>
+            <li><a href="#">О нас</a></li>
+            <li><a href="#">Контакты</a></li>
+            {% if token %}
+                <button class="" onclick="logoutUser()">Выйти</button>
+            {% else %}
+                <li><a href="/pages/authentication">Войти</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
