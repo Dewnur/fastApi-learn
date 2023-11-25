@@ -40,6 +40,7 @@ async def authentication(
         request: Request,
         profile=Depends(get_profile)
 ):
+    print(profile.gender)
     return templates.TemplateResponse(
         name='profile.html',
         context={

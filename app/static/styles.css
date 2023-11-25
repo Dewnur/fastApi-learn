@@ -140,3 +140,19 @@ footer {
     color: white;
     cursor: pointer;
 }
+
+.profile-container {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info {
+    line-height: 1.6;
+}
+
+.profile-info strong {
+    color: #333;
+}

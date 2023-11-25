@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="profile-container">
+    <h1></h1>
+    <div class="profile-info">
+        <p><strong>Username: {{ profile.user.username }}</strong></p>
+        <p><strong>Почта: {{ profile.user.email }}</strong></p>
+        <p><strong>Имя: {{ profile.first_name }}</strong></p>
+        <p><strong>Фамилия: {{ profile.last_name }}</strong></p>
+        <p><strong>Пол: {{ profile.gender.value }}</strong></p>
+        <p><strong>Адрес: {{ profile.address }}</strong></p>
+        <p><strong>Номер телефона: {{ profile.phone_number }}</strong></p>
+    </div>
+</div>
+{% endblock %}

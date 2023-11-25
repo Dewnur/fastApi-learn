@@ -4,8 +4,10 @@ from sqlalchemy.ext.asyncio.session import AsyncSession
 from app import crud
 from app.db.session import engine
 from app.models import Base
+from app.schemas import IGenderEnum
 from app.schemas.category_schema import ICategoryCreate
 from app.schemas.product_schema import IProductCreate
+from app.schemas.profile_schema import IProfileCreate
 from app.schemas.role_schema import IRoleCreate
 from app.schemas.user_schema import IUserAccess
 
@@ -15,7 +17,7 @@ roles: list[IRoleCreate] = [
     IRoleCreate(name="user"),
 ]
 
-users: list[dict[str, str | IUserAccess]] = [
+users: list[dict[str, str | IUserAccess | IProfileCreate]] = [
     {
         "data": IUserAccess(
             username="Admin",
@@ -24,6 +26,7 @@ users: list[dict[str, str | IUserAccess]] = [
             is_superuser=True,
         ),
         "role": "admin",
+        'profile': None,
     },
     {
         "data": IUserAccess(
@@ -33,6 +36,7 @@ users: list[dict[str, str | IUserAccess]] = [
             is_superuser=False,
         ),
         "role": "manager",
+        'profile': None,
     },
     {
         "data": IUserAccess(
@@ -42,6 +46,13 @@ users: list[dict[str, str | IUserAccess]] = [
             is_superuser=False,
         ),
         "role": "user",
+        'profile': IProfileCreate(
+            first_name='Иван',
+            last_name='Иванов',
+            gender='male',
+            address='ул. Ленина 13',
+            phone_number='+79824097321',
+        ),
     },
 ]
 
@@ -114,8 +125,11 @@ async def init_db(async_session: AsyncSession):
             name=user["role"], db_session=async_session
         )
         user["data"].role_id = role.id
-        await crud.user.create(obj=user["data"], db_session=async_session)
-
+        new_user = await crud.user.create(obj=user["data"], db_session=async_session)
+        if user['profile']:
+            profile = user['profile']
+            profile.user_id = new_user.id
+            await crud.profile.create(obj=profile, db_session=async_session)
     for category in categories:
         await crud.category.create(obj=category, db_session=async_session)
 
