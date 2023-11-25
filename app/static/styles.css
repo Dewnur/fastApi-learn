@@ -5,9 +5,16 @@ body, h1, h2, p, ul, li {
 }
 
 /* Основные стили */
+html, body {
+    height: 100%; /* Set the height of the html and body to 100% */
+    display: flex;
+    flex-direction: column;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
+    flex: 1; /* Allows the body to expand and occupy available space */
 }
 
 header {
