@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
 
-from app.api.deps import get_current_user, get_token
-from app.api.v1.endpoints.auth import logout_user, login_user
 from app.api.v1.endpoints.product import get_product_list
+from app.api.v1.endpoints.profile import get_profile
 
 client_router = APIRouter()
 
@@ -14,24 +13,6 @@ templates = Jinja2Templates(directory='app/templates')
 async def get_main_page(
         request: Request,
         products=Depends(get_product_list),
-        token=Depends(get_token)
-):
-    return templates.TemplateResponse(
-        name='products.html',
-        context={
-            'request': request,
-            'products': products,
-            'token': token
-        }
-    )
-
-
-@client_router.post('/logout')
-async def logout_user(
-        request: Request,
-        logout=Depends(logout_user),
-        products=Depends(get_product_list),
-
 ):
     return templates.TemplateResponse(
         name='products.html',
@@ -54,17 +35,15 @@ async def authentication(
     )
 
 
-# @client_router.post('/login')
-# async def login(
-#         request: Request,
-#         response=Depends(login_user),
-#         products=Depends(get_product_list),
-# ):
-#     return templates.TemplateResponse(
-#         name='products.html',
-#         context={
-#             'request': request,
-#             'products': products,
-#             'token': response['access_token'],
-#         }
-#     )
+@client_router.get('/profile')
+async def authentication(
+        request: Request,
+        profile=Depends(get_profile)
+):
+    return templates.TemplateResponse(
+        name='profile.html',
+        context={
+            'request': request,
+            'profile': profile
+        }
+    )

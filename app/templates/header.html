@@ -19,8 +19,9 @@
             <li><a href="#">Каталог</a></li>
             <li><a href="#">О нас</a></li>
             <li><a href="#">Контакты</a></li>
-            {% if token %}
-                <button class="" onclick="logoutUser()">Выйти</button>
+            {% if request.cookies.get('market_access_token') %}
+                <li><a href="/pages/profile">Профиль</a></li>
+                <li><button class="" onclick="logoutUser()">Выйти</button></li>
             {% else %}
                 <li><a href="/pages/authentication">Войти</a></li>
             {% endif %}
