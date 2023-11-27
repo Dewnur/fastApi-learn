@@ -4,6 +4,7 @@ from starlette.responses import FileResponse
 
 from app import crud
 from app.api.deps import get_db_session
+from app.core.config import get_settings
 from app.dependencies.image_deps import image_type_existing
 from app.schemas.image_schema import IImageRead
 from app.services.image_service import get_file_path_dir, create_image
@@ -23,7 +24,7 @@ async def post_image(
 async def get_image(file_name: str):
     image = await crud.image.fetch_one(name=file_name)
     file_path = get_file_path_dir(
-        upload_dir="app/static/images/",
+        upload_dir=get_settings().FILE_SAVE_DIR,
         file_name=file_name,
     )
     if not image:
