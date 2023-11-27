@@ -29,6 +29,7 @@ async def get_product_list() -> list[IProductRead]:
     return await crud.product.fetch_all()
 
 
+# TODO: Проверка на существующий товар
 @router.post(
     path='',
     status_code=status.HTTP_201_CREATED,

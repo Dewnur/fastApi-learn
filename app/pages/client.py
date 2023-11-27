@@ -10,7 +10,7 @@ templates = Jinja2Templates(directory='app/templates')
 
 
 @client_router.get('')
-async def get_main_page(
+async def main(
         request: Request,
         products=Depends(get_product_list),
 ):
@@ -23,12 +23,12 @@ async def get_main_page(
     )
 
 
-@client_router.get('/authentication')
-async def authentication(
+@client_router.get('/login')
+async def login(
         request: Request,
 ):
     return templates.TemplateResponse(
-        name='authentication.html',
+        name='login.html',
         context={
             'request': request,
         }
@@ -46,5 +46,17 @@ async def authentication(
         context={
             'request': request,
             'profile': profile
+        }
+    )
+
+
+@client_router.get('/catalog')
+async def authentication(
+        request: Request,
+):
+    return templates.TemplateResponse(
+        name='catalog.html',
+        context={
+            'request': request,
         }
     )
