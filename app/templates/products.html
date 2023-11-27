@@ -1,16 +1,15 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
-<section class="products">
-    {% for product in products %}
-    <article class="product">
-        <img src="{{product.image.path}}"
-             width="300" height="300" alt="Товар 1">
-        <h2>{{product.name}}</h2>
-        <p>{{ product.description }}</p>
-        <p class="price">{{ product.price }}</p>
-        <button>Добавить</button>
-    </article>
-    {% endfor %}
-</section>
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+        {% for product in products %}
+            {% include 'card.html' %}
+        {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}
+
