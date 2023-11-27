@@ -1,0 +1,16 @@
+[
+  {
+    "product": {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "name": "ferz",
+      "description": "Просто крутая шапка",
+      "stock_quantity": 50,
+      "price": 1199,
+      "category_id": "00000000-0000-0000-0000-000000000003",
+      "image_id": null
+    },
+    "image": "./data/images/head.jpg"
+  }
+]
+
+
