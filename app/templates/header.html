@@ -21,10 +21,18 @@
             <li><a href="#" class="nav-link px-2 link-dark">О нас</a></li>
         </ul>
         {% if request.cookies.get('market_access_token') %}
-        <!--        <li><a href="/pages/profile">Профиль</a></li>-->
-        <a style="text-decoration: none" class="btn btn-outline-primary me-2" onclick="logoutUser()">
-            Выйти
-        </a>
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li>
+                <a href="http://google.com" class="px-2 me-2">
+                    <img src="/static/material-design-icons/person.svg" width="30">
+                </a>
+            </li>
+            <li>
+                <a class="px-2 me-2" onclick="logoutUser()">
+                    <img src="/static/material-design-icons/logout.svg" width="30">
+                </a>
+            </li>
+        </ul>
         {% else %}
         <div class="col-md-3 text-end">
             <a href="/pages/login" style="text-decoration: none" class="btn btn-outline-primary me-2">

@@ -23,6 +23,7 @@ pydantic-extra-types = "^2.1.0"
 phonenumbers = "^8.13.23"
 python-multipart = "^0.0.6"
 jinja2 = "^3.1.2"
+pillow = "^10.1.0"
 
 
 [tool.poetry.group.dev.dependencies]

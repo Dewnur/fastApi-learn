@@ -1,15 +1,92 @@
 [
   {
     "product": {
-      "id": "00000000-0000-0000-0000-000000000001",
       "name": "ferz",
-      "description": "Просто крутая шапка",
+      "description": "Будь как лютый ферзь",
       "stock_quantity": 50,
       "price": 1199,
       "category_id": "00000000-0000-0000-0000-000000000003",
       "image_id": null
     },
-    "image": "./data/images/head.jpg"
+    "image": "./data/images/ferz.jpg"
+  },
+  {
+    "product": {
+      "name": "goooochi",
+      "description": "Просто крутой носок",
+      "stock_quantity": 50,
+      "price": 199,
+      "category_id": "00000000-0000-0000-0000-000000000003",
+      "image_id": null
+    },
+    "image": "./data/images/socks.jpg"
+  },
+  {
+    "product": {
+      "name": "Embajador",
+      "description": "Шаровары что надо",
+      "stock_quantity": 50,
+      "price": 1499,
+      "category_id": "00000000-0000-0000-0000-000000000001",
+      "image_id": null
+    },
+    "image": "./data/images/embajador.jpg"
+  },
+  {
+    "product": {
+      "name": "Ringer",
+      "description": "Просто крутая футболка",
+      "stock_quantity": 15,
+      "price": 1399,
+      "category_id": "00000000-0000-0000-0000-000000000001",
+      "image_id": null
+    },
+    "image": "./data/images/ringer.jpg"
+  },
+  {
+    "product": {
+      "name": "Jerzees",
+      "description": "Просто крутая кофта",
+      "stock_quantity": 20,
+      "price": 2499,
+      "category_id": "00000000-0000-0000-0000-000000000001",
+      "image_id": null
+    },
+    "image": "./data/images/jerzees.jpg"
+  },
+  {
+    "product": {
+      "name": "Timberland",
+      "description": "Бархатные тяги",
+      "stock_quantity": 20,
+      "price": 4499,
+      "category_id": "00000000-0000-0000-0000-000000000002",
+      "image_id": null
+    },
+    "image": "./data/images/timberland.jpg"
+  }
+  ,
+  {
+    "product": {
+      "name": "Pijak",
+      "description": "(Не) Будь как все",
+      "stock_quantity": 20,
+      "price": 9799,
+      "category_id": "00000000-0000-0000-0000-000000000001",
+      "image_id": null
+    },
+    "image": "./data/images/pijac.jpg"
+  },
+  {
+    "product": {
+      "name": "ClubMaster",
+      "description": "О_о",
+      "stock_quantity": 20,
+      "price": 9799,
+      "category_id": "00000000-0000-0000-0000-000000000003",
+      "image_id": null
+    },
+    "image": "./data/images/clubmaster.jpg"
   }
 ]
 

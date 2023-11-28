@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     mode: Literal['DEV', 'TEST', 'PROD']
     API_VERSION: str = "v1"
     API_V1_STR: str = f"/api/{API_VERSION}"
-    FILE_SAVE_DIR: str = './data/hash/'
+    FILE_SAVE_DIR: str = '../data/hash/'
 
     postgres_host: str
     postgres_port: int
