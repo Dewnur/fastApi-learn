@@ -7,7 +7,6 @@
         const url = "http://127.0.0.1:8000/api/v1/auth/login";
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
-
         await fetch(url, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -29,18 +28,16 @@
 </style>
 <div class="text-center bg-light mb-auto">
     <div class="form-signin ">
-            <h1 class="h3 mb-3 fw-normal">Добро пожаловать</h1>
-            <div class="form-floating mb-2">
-                <input type="email" class="form-control" id="email" name="email" value="" placeholder="name@example.com">
-                <label for="email">Почта</label>
-            </div>
-            <div class="form-floating mb-2">
-                <input type="password" class="form-control" id="password" name="password" value="" placeholder="Password">
-                <label for="password">Пароль</label>
-            </div>
-            <button class="w-100 btn btn-lg btn-primary" onclick="loginUser()" type="submit">Войти</button>
+        <h1 class="h3 mb-3 fw-normal">Добро пожаловать</h1>
+        <div class="form-floating mb-2">
+            <input type="email" class="form-control" id="email" name="email" value="" placeholder="name@example.com">
+            <label for="email">Почта</label>
+        </div>
+        <div class="form-floating mb-2">
+            <input type="password" class="form-control" id="password" name="password" value="" placeholder="Password">
+            <label for="password">Пароль</label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" onclick="loginUser()" type="submit">Войти</button>
     </div>
 </div>
 {% endblock %}
-
-<!--    <button class="button-auth" onclick="loginUser()" type="submit">Войти</button>-->

@@ -53,7 +53,7 @@ users: list[dict[str, str | IUserAccess | IProfileCreate]] = [
             first_name='Иван',
             last_name='Иванов',
             gender='male',
-            address='ул. Ленина 13',
+            address='г. Москва, ул. Ленина 13',
             phone_number='+79824097321',
         ),
     },

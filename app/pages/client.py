@@ -36,27 +36,14 @@ async def login(
 
 
 @client_router.get('/profile')
-async def authentication(
+async def get_profile(
         request: Request,
         profile=Depends(get_profile)
 ):
-    print(profile.gender)
     return templates.TemplateResponse(
         name='profile.html',
         context={
             'request': request,
             'profile': profile
-        }
-    )
-
-
-@client_router.get('/catalog')
-async def authentication(
-        request: Request,
-):
-    return templates.TemplateResponse(
-        name='catalog.html',
-        context={
-            'request': request,
         }
     )
