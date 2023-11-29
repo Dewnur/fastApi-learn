@@ -35,6 +35,18 @@ async def login(
     )
 
 
+@client_router.get('/register')
+async def register(
+        request: Request,
+):
+    return templates.TemplateResponse(
+        name='register.html',
+        context={
+            'request': request,
+        }
+    )
+
+
 @client_router.get('/profile')
 async def get_profile(
         request: Request,
