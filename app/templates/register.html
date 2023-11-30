@@ -3,17 +3,22 @@
 {% block content %}
 
 <script>
-    function valid_password() {
 
-    }
 </script>
 <div class="bg-light mb-auto row justify-content-md-center">
-    <div class="col-md-4">
+    <form class="col-md-4 needs-validation" id="register-form">
         <h1 class="text-center h3 mb-3 fw-normal">Регистрация</h1>
+        <div class="alert alert-danger" role="alert" id="register-alert" style="display: none">
+            <h4 class="alert-heading">Ошибка</h4>
+            <p id="register-alert-text"></p>
+        </div>
         <div class="mb-3 row">
             <label for="username" class="col-sm-4 col-form-label">Имя пользователя</label>
-            <div class="col-sm-8">
+            <div class="col-sm-8 has-validation">
                 <input type="text" required class="form-control" id="username" placeholder="username">
+                <div class="invalid-feedback">
+                    Please choose a username.
+                </div>
             </div>
         </div>
         <div class="mb-3 row">
@@ -28,13 +33,7 @@
                 <input type="password" required class="form-control" id="password" placeholder="password">
             </div>
         </div>
-        <div class="mb-3 row">
-            <label for="password_second" class="col-sm-4 col-form-label">Повторите пароль</label>
-            <div class="col-sm-8">
-                <input type="password" required class="form-control" id="password_second" placeholder="password">
-            </div>
-        </div>
-        <button class="w-100 btn btn-lg btn-primary" onclick="" type="submit">Зарегистрироваться</button>
-    </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Зарегистрироваться</button>
+    </form>
 </div>
 {% endblock %}
