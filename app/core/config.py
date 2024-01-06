@@ -1,4 +1,6 @@
+import os
 from functools import lru_cache
+from pathlib import Path
 from typing import Literal
 
 from dotenv import load_dotenv
@@ -12,6 +14,14 @@ class Settings(BaseSettings):
     API_VERSION: str = "v1"
     API_V1_STR: str = f"/api/{API_VERSION}"
     FILE_SAVE_DIR: str = '../data/hash/'
+
+    @property
+    def base_dir(self):
+        return Path(__file__).resolve().parents[2]
+
+    @property
+    def static_files_dir(self):
+        return os.path.join(self.base_dir, 'app', 'static')
 
     postgres_host: str
     postgres_port: int
