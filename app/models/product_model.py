@@ -5,6 +5,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base_model import BaseUUIDModel
+from app.utils.exceptions.product_exceptions import InsufficientStockException
 
 if TYPE_CHECKING:
     from app.models.category_model import Category
@@ -26,5 +27,10 @@ class Product(BaseUUIDModel):
     image: Mapped['Image'] = relationship(back_populates='product', lazy='selectin')
     order_items: Mapped[list['OrderItem']] = relationship(back_populates='product')
 
-    def is_available_for(self, quantity: int) -> bool:
+    async def is_available_for(self, quantity: int) -> bool:
         return self.stock_quantity > 0 and self.stock_quantity >= quantity
+
+    async def decrease_stock_quantity(self, quantity: int) -> None:
+        if not await self.is_available_for(quantity):
+            raise InsufficientStockException(self.id)
+        self.stock_quantity -= quantity

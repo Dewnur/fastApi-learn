@@ -1,8 +1,8 @@
 from datetime import datetime
-from typing import TYPE_CHECKING, Sequence
+from typing import TYPE_CHECKING
 from uuid import UUID
 
-from sqlalchemy import ForeignKey, text
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.models.base_model import BaseUUIDModel
@@ -17,8 +17,8 @@ class Order(BaseUUIDModel):
     __tablename__ = "order"
 
     order_date: Mapped[datetime] = mapped_column(default=datetime.utcnow(), nullable=True)
-    status: Mapped[IOrderStatus] = mapped_column(default=None)
-    total_amount: Mapped[float] = mapped_column()
+    status: Mapped[IOrderStatus] = mapped_column(default=IOrderStatus.processing)
+    total_amount: Mapped[int] = mapped_column(default=0)
     profile_id: Mapped[UUID] = mapped_column(ForeignKey('profile.id'))
 
     profile: Mapped['Profile'] = relationship(back_populates='orders')

@@ -87,3 +87,5 @@ class CRUDBase(Generic[ModelType]):
         await db_session.delete(obj)
         await db_session.commit()
         return obj
+
+

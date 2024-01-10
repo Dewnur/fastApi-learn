@@ -6,12 +6,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app import crud
 from app.models import Order, Product, OrderItem
-from app.schemas import IOrderStatus
 from app.schemas.order_items_schema import IOrderItemCreate
 from app.schemas.order_schema import IOrderRead
 from app.utils.exceptions.common_exception import IdNotFoundException
 from app.utils.exceptions.order_items_excemption import EmptyOrderItemsException
-from app.utils.exceptions.product_exceptions import InsufficientStockException
 
 
 async def create_order(
@@ -23,11 +21,7 @@ async def create_order(
         raise EmptyOrderItemsException()
     async with db_session.begin():
         try:
-            new_order = Order(
-                profile_id=profile_id,
-                status=IOrderStatus.processing,
-                total_amount=0
-            )
+            new_order = Order(profile_id=profile_id)
             db_session.add(new_order)
             await db_session.flush()
 
@@ -35,9 +29,7 @@ async def create_order(
                 product = await crud.product.fetch_one(id=item.product_id, db_session=db_session)
                 if not product:
                     raise IdNotFoundException(model=Product, id=item.product_id)
-                if not product.is_available_for(item.quantity):
-                    raise InsufficientStockException(product.id)
-                product.stock_quantity -= item.quantity
+                await product.decrease_stock_quantity(item.quantity)
 
                 new_item = OrderItem(
                     product_id=product.id,
@@ -48,6 +40,8 @@ async def create_order(
                 new_order.total_amount += product.price * item.quantity
                 db_session.add(new_item)
                 db_session.add(product)
+
+            db_session.add(new_order)
 
             await db_session.commit()
             return new_order
