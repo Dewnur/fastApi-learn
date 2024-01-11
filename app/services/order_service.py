@@ -17,6 +17,26 @@ async def create_order(
         order_items: list[IOrderItemCreate],
         db_session: AsyncSession
 ) -> IOrderRead:
+    """
+    Создает новый заказ в базе данных.
+
+    Args:
+        profile_id (UUID): Идентификатор профиля пользователя, оформляющего заказ.
+        order_items (list[IOrderItemCreate]): Список товаров и количества для заказа.
+        db_session (AsyncSession): Асинхронная сессия базы данных для выполнения транзакции.
+
+    Returns:
+        IOrderRead: Объект заказа после успешного создания.
+
+    Raises:
+        EmptyOrderItemsException: Если список order_items пустой.
+        IdNotFoundException: Если товар с указанным идентификатором не найден.
+        HTTPException: Если произошла ошибка базы данных во время транзакции.
+
+    Note:
+        Функция создает новый заказ, добавляет товары в заказ, вычитает соответствующее количество товаров из
+        остатков на складе и сохраняет изменения в базе данных в рамках асинхронной транзакции.
+    """
     if not order_items:
         raise EmptyOrderItemsException()
     async with db_session.begin():
