@@ -1,7 +1,6 @@
 from uuid import UUID
 
 import pytest
-from fastapi import HTTPException
 
 from app import crud
 from app.schemas.order_schema import IOrderCreate

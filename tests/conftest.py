@@ -1,4 +1,3 @@
-import asyncio
 import json
 
 import pytest
@@ -45,14 +44,6 @@ async def prepare_database():
         await session.commit()
 
 
-@pytest.fixture(scope="session")
-def event_loop(request):
-    """Create an instance of the default event loop for each tests case."""
-    loop = asyncio.get_event_loop_policy().new_event_loop()
-    yield loop
-    loop.close()
-
-
 @pytest.fixture(scope="function")
 async def ac():
     "Асинхронный клиент для тестирования эндпоинтов"
@@ -65,7 +56,7 @@ async def auth_user_ac():
     "Асинхронный аутентифицированный клиент для тестирования эндпоинтов"
     async with AsyncClient(app=app, base_url="http://test") as ac:
         await ac.post("/api/v1/auth/login", json={
-            "email": "test@test.com",
+            "email": "user@test.com",
             "password": "root",
         })
         assert ac.cookies["market_access_token"]
