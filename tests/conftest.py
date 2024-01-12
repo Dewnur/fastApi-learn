@@ -1,3 +1,4 @@
+import asyncio
 import json
 
 import pytest
@@ -42,6 +43,17 @@ async def prepare_database():
             await session.execute(query)
 
         await session.commit()
+
+
+@pytest.fixture(scope="session")
+def event_loop(request):
+    """
+    Создает экземпляр цикла событий по умолчанию для каждого тестового случая.
+    Тесты не работают без этой функции!
+    """
+    loop = asyncio.get_event_loop_policy().new_event_loop()
+    yield loop
+    loop.close()
 
 
 @pytest.fixture(scope="function")
