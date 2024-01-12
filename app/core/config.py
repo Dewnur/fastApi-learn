@@ -34,17 +34,6 @@ class Settings(BaseSettings):
     def postgres_url(self):
         return f"postgresql+asyncpg://{self.postgres_user}:{self.postgres_password}@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}"
 
-    test_postgres_host: str
-    test_postgres_port: int
-    test_postgres_user: str
-    test_postgres_password: str
-    test_postgres_name: str
-    test_postgres_db: str
-
-    @property
-    def test_postgres_url(self):
-        return f"postgresql+asyncpg://{self.test_postgres_user}:{self.test_postgres_password}@{self.test_postgres_host}:{self.test_postgres_port}/{self.test_postgres_db}"
-
     encrypt_key: str
     access_token_expire_minutes: int
     name_access_token: str = 'market_access_token'

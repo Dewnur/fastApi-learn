@@ -42,22 +42,10 @@
 
 2. **Запуск Docker**
    ```bash
-   docker-compose up --build
+   docker-compose -f docker-compose-dev.yaml up --build
    
-2. **Установить зависимости**
-   ```bash
-   pip install -r requirements.txt
-
-3. **Инициализировать данные**
-   ```bash
-   python app/initial_data.py
-   
-4. **Запуск приложения**
-   ```bash
-   uvicorn app.main:app --reload
-   
-5. **Главная страница**
- http://127.0.0.1:8000/pages
+3. **Главная страница**
+ http://localhost:8000/pages
 
 ## Схема базы данных
 
@@ -65,7 +53,7 @@
 
 ## Документация API
 
-После запуска приложения http://127.0.0.1:8000/docs
+После запуска приложения http://localhost:8000/docs
 
 ![data base schema](docs/api_docs.png)
 ![data base schema](docs/api_docs2.png)
