@@ -8,7 +8,7 @@
       "category_id": "00000000-0000-0000-0000-000000000003",
       "image_id": null
     },
-    "image": "./data/images/ferz.jpg"
+    "image": "ferz.jpg"
   },
   {
     "product": {
@@ -19,7 +19,7 @@
       "category_id": "00000000-0000-0000-0000-000000000003",
       "image_id": null
     },
-    "image": "./data/images/socks.jpg"
+    "image": "socks.jpg"
   },
   {
     "product": {
@@ -30,7 +30,7 @@
       "category_id": "00000000-0000-0000-0000-000000000001",
       "image_id": null
     },
-    "image": "./data/images/embajador.jpg"
+    "image": "embajador.jpg"
   },
   {
     "product": {
@@ -41,7 +41,7 @@
       "category_id": "00000000-0000-0000-0000-000000000001",
       "image_id": null
     },
-    "image": "./data/images/ringer.jpg"
+    "image": "ringer.jpg"
   },
   {
     "product": {
@@ -52,7 +52,7 @@
       "category_id": "00000000-0000-0000-0000-000000000001",
       "image_id": null
     },
-    "image": "./data/images/jerzees.jpg"
+    "image": "jerzees.jpg"
   },
   {
     "product": {
@@ -63,9 +63,8 @@
       "category_id": "00000000-0000-0000-0000-000000000002",
       "image_id": null
     },
-    "image": "./data/images/timberland.jpg"
-  }
-  ,
+    "image": "timberland.jpg"
+  },
   {
     "product": {
       "name": "Pijak",
@@ -75,7 +74,7 @@
       "category_id": "00000000-0000-0000-0000-000000000001",
       "image_id": null
     },
-    "image": "./data/images/pijac.jpg"
+    "image": "pijac.jpg"
   },
   {
     "product": {
@@ -86,7 +85,7 @@
       "category_id": "00000000-0000-0000-0000-000000000003",
       "image_id": null
     },
-    "image": "./data/images/clubmaster.jpg"
+    "image": "clubmaster.jpg"
   }
 ]
 

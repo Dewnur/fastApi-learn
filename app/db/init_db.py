@@ -1,18 +1,20 @@
 import json
+import os
 
 from fastapi import UploadFile
 from sqlalchemy import insert
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
 from app import crud
+from app.core.config import get_settings
 from app.db.session import engine
-from app.models import Base, Category, Product
-from app.schemas import IGenderEnum
-from app.schemas.category_schema import ICategoryCreate
+from app.models import Base, Category
 from app.schemas.product_schema import IProductCreate
 from app.schemas.profile_schema import IProfileCreate
 from app.schemas.role_schema import IRoleCreate
 from app.schemas.user_schema import IUserAccess
+
+settings = get_settings()
 
 roles: list[IRoleCreate] = [
     IRoleCreate(name="admin"),
@@ -80,7 +82,8 @@ async def init_db(async_session: AsyncSession):
             await crud.profile.create(obj=profile, db_session=async_session)
 
     def open_mock_json(model: str):
-        with open(f"./data/{model}.json", encoding="utf-8") as file:
+        path = os.path.join(settings.base_dir, 'app', 'data', f'{model}') + '.json'
+        with open(path, encoding="utf-8") as file:
             return json.load(file)
 
     categories = open_mock_json("categories")
@@ -97,6 +100,7 @@ async def init_db(async_session: AsyncSession):
     for item in products:
         new_product_create = IProductCreate(**item['product'])
         new_product = await crud.product.create(obj=new_product_create, db_session=async_session)
-        with open(item['image'], "rb") as file:
+        image_path = os.path.join(settings.base_dir, 'app', 'data', 'images', item['image'])
+        with open(image_path, "rb") as file:
             upload_file = UploadFile(file=file, filename=file.name)
             await crud.product.update_image(file=upload_file, product=new_product, db_session=async_session)

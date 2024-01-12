@@ -1,7 +1,7 @@
 import asyncio
 
-from app.db.init_db import init_db
-from app.db.session import async_session
+from db.init_db import init_db
+from db.session import async_session
 
 
 async def main() -> None:
