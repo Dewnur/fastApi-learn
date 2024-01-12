@@ -5,10 +5,10 @@ from sqlalchemy import NullPool, QueuePool
 from starlette.middleware.cors import CORSMiddleware
 
 from app.api.v1.api import api_router
-from app.core.config import get_settings, Settings
+from app.core.config import get_settings
 from app.pages.client import client_router
 
-settings = Settings()
+settings = get_settings()
 
 app = FastAPI()
 
