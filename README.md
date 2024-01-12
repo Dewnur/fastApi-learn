@@ -42,7 +42,7 @@
 
 2. **Запуск Docker**
    ```bash
-   docker-compose -f docker-compose-dev.yaml up --build
+   docker-compose -f docker-compose-prod.yaml up --build
    
 3. **Главная страница**
  http://localhost:8000/pages
